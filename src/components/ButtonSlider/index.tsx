@@ -1,12 +1,13 @@
-import { TouchableOpacity } from 'react-native/types'
+import { TouchableOpacity } from 'react-native'
 import { styles } from './styles'
 import React from 'react'
 
 export interface IBSlider {
     onPressI: () => void
+    cor: boolean
 }
-export function ButtonSlider({ onPressI }: IBSlider) {
+export function ButtonSlider({ onPressI, cor }: IBSlider) {
     return (
-        <TouchableOpacity style = {styles.ball} onPress={onPressI} />
+        <TouchableOpacity style = {cor? styles.ballCor : styles.ball} onPress={onPressI} />
     )
 }

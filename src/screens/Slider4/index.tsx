@@ -6,7 +6,7 @@ import { ComponentListMarker } from '../../components';
 import { ComponentTitleSlider} from '../../components';
 import { styles } from './styles';
 export function Slider4({ setPageI }: IPage) {
-    const slide1 = require("../../assets/slide1.png")
+    const slide1 = require("../Slider4/styles")
     const slide1Texts = [
         { id: '1', text: 'Selecione seus interesses.'},
         { id: '2', text: 'Utilize a busca para achar suas inspirações.'},
@@ -25,10 +25,10 @@ export function Slider4({ setPageI }: IPage) {
                 />
             </View>
             <View style={styles.buttonSlider}>
-                <ComponentButtonSlider onPressI={() => setPageI(1)} />
-                <ComponentButtonSlider onPressI={() => setPageI(2)} />
-                <ComponentButtonSlider onPressI={() => setPageI(3)} />
-                <ComponentButtonSlider onPressI={() => setPageI(4)} />
+                <ComponentButtonSlider onPressI={() => setPageI(1)} cor={false} />
+                <ComponentButtonSlider onPressI={() => setPageI(2)} cor={false}/>
+                <ComponentButtonSlider onPressI={() => setPageI(3)} cor={false}/>
+                <ComponentButtonSlider onPressI={() => setPageI(4)} cor={true}/>
             </View>
         </ImageBackground>
     );
