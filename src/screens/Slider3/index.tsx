@@ -9,8 +9,8 @@ export function Slider3({ setPageI }: IPage) {
     const slide1 = require("../Slider3/styles")
     const slide1Texts = [
         { id: '1', text: 'Sincronize seus contatos.'},
-        { id: '2', text: 'Tenha a opão de privar sua conta ou suas pastas.'},
-        { id: '3', text: 'Oculte seu perfiç em mecanismos de pesquisa.'},
+        { id: '2', text: 'Tenha a opção de privar sua conta ou suas pastas.'},
+        { id: '3', text: 'Oculte seu perfil em mecanismos de pesquisa.'},
     ]
     return (
         <ImageBackground source={slide1} style={styles.container} >
