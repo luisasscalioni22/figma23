@@ -62,7 +62,7 @@ export function Cadastro({navigation}:loginTypes) {
                         style={styles.input}
                     />
                 </View>
-                <ComponentButtonInterface title="Salvar" type="primary" onPressI={() =>(navigation.navigate("Login"))} />
+                <ComponentButtonInterface title="Salvar" type="primary" onPressI={() =>(navigation.navigate("Drawer"))} />
                 <ComponentButtonInterface title="Voltar" type="primary" onPressI={() =>(navigation.navigate("Login"))}/>
             </KeyboardAvoidingView>
         </View>
