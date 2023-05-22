@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     title: {
         fontSize:30,
         fontWeight: "bold",
-        textAling: "center",
+        textAlign: "center",
         color: colors.black
     },
     formRow: {

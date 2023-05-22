@@ -9,6 +9,7 @@ type LoginStackParamList = {
   Cadastro: undefined
   Tab: undefined
   Drawer: undefined
+  Camera:undefined
 };
 type LoginScreenNavigation =StackNavigationProp<LoginStackParamList, 'Login'>
 export type loginTypes ={
