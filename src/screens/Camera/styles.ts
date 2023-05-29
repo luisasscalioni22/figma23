@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { colors } from "../../styles/colors";
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -28,5 +29,17 @@ export const styles = StyleSheet.create({
     img: {
       height: Dimensions.get('window').width * 0.7,
       width: Dimensions.get('window').width * 0.7,
+    },
+    sorriso :{
+      flexDirection: 'row',
+      backgroundColor: colors.secondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    text2: {
+      fontSize: 15,
+      fontWeight: 'bold',
+      color: 'white',
+      textAlign: 'center',
     },
   });

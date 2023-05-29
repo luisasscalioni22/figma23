@@ -1,4 +1,4 @@
-import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera';
+import { Camera, CameraCapturedPicture, CameraType, FaceDetectionResult } from 'expo-camera';
 import React from 'react';
 import { useState, useRef } from 'react';
 import {styles} from './styles';
@@ -6,7 +6,10 @@ import { Alert, Button,Image, StyleSheet, Text, TouchableOpacity, View } from 'r
 import { ComponentButtonInterface } from '../../components';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import * as FaceDetector from 'expo-face-detector';
+import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
 import { AntDesign, Feather } from '@expo/vector-icons';
+import { SafeAreaFrameContext } from 'react-native-safe-area-context';
 
 interface IPhoto{
   height: string
@@ -21,8 +24,13 @@ export function CameraScreen() {
   const [photo, setPhoto] = useState<CameraCapturedPicture | ImagePicker.ImagePickerAsset>()
   const ref = useRef<Camera>(null)
   const [takePhoto, setTakePhoto] = useState(false)
+  const [permissionQrCode, requestPermissionQrCode] = BarCodeScanner.usePermissions();
+  const [scanned, setScanned] = useState(false)
+  const [face, setFace] = useState<FaceDetector.FaceFeature>()
 
-  if (!permissionCamera) {
+
+
+  if (!permissionCamera || !permissionMedia || !permissionQrCode) {
     // Camera permissions are still loading
     return <View />;
   }
@@ -82,19 +90,51 @@ export function CameraScreen() {
     }
   }
 
+  const handleBarCodeScanned = ({type, data }: BarCodeScannerResult) => {
+     setScanned(true);
+     alert(data);
+  };
+
+  const handleFacesDetected = ({ faces }: FaceDetectionResult): void =>{
+    if (faces.length > 0) {
+      const FaceDetect = faces [0] as FaceDetector.FaceFeature
+      setFace(FaceDetect)
+    } else {
+      setFace(undefined)
+    } 
+  };
+
 
   return (
     <View style={styles.container}>
       {takePhoto ? (
         <>
         <ComponentButtonInterface title='flip' type='secondary' onPressI={toggleCameraType} />
-        <Camera style={styles.camera} type={type}/>
+        <Camera style={styles.camera} type={type} ref={ref}
+          onBarCodeScanned={scanned ? undefined: handleBarCodeScanned}
+          onFacesDetected={handleFacesDetected}
+          faceDetectorSettings={{
+            mode : FaceDetector.FaceDetectorMode.accurate,
+            detectLandmarks: FaceDetector.FaceDetectorClassifications.all,
+            runClassifications: FaceDetector.FaceDetectorClassifications.all,
+            minDirectionInterval: 1000,
+            tracking: true,
+          }}/>
         <ComponentButtonInterface title='Tirar Foto' type='secondary' onPressI={takePicture} />
+        <ComponentButtonInterface title='Ler QrCode novamente' type='secondary' onPressI={()=>setScanned(false)} />
+        <View style={styles.sorriso}>
+          {face && face.smilingProbability && face.smilingProbability> 0.5 ? (
+            <Text style={styles.text2}> Sorrindo</Text>
+          ):(
+            <Text style={styles.text2}> chorando</Text>
+          )}
+        </View>
         </>
       ):(
         <>
         <ComponentButtonInterface title='Tirar Foto' type='secondary' onPressI={()=>setTakePhoto(true)} />
         <ComponentButtonInterface title='Abrir Imagem' type='secondary' onPressI={pickImage} />
+        
         <ComponentButtonInterface title='Salvar Imagem' type='secondary' onPressI={savePhoto} />
         {photo && photo.uri && (
           <Image source={{uri: photo!.uri}} style={styles.img} />
