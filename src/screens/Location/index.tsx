@@ -1,29 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {  Text, View, } from 'react-native';
+import { Text, View, } from 'react-native';
 import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete';
-import MapViewDirections, {} from 'react-native-maps-directions';
-import {styles} from "./styles";
-import  MapView, {Region, Marker, Polyline} from "react-native-maps";
+import MapViewDirections, { } from 'react-native-maps-directions';
+import { styles } from "./styles";
+import MapView, { Region, Marker, Polyline } from "react-native-maps";
 import { colors } from '../../styles/colors';
-import {API_GOOGLE} from '@env'; 
+import { API_GOOGLE } from '@env';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-type ICoords ={
+type ICoords = {
   latitude: number
   longitude: number
 }
 export function LocationScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null >(null);
-  const [region, setRegion] = useState <Region> ()
-  const [marker, setMarker] = useState <Region[]> ()
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [region, setRegion] = useState<Region>()
+  const [marker, setMarker] = useState<Region[]>()
   const [coords, setCoords] = useState<ICoords[]>([])
   const [destination, setDestination] = useState<Region | null>(null)
   const mapRef = useRef<MapView>(null)
 
   useEffect(() => {
-    let subscription: Location.LocationSubscription 
+    let subscription: Location.LocationSubscription
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -33,13 +33,13 @@ export function LocationScreen() {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      setRegion ({
+      setRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.009,
         longitudeDelta: 0.009
       })
-      setMarker ([{
+      setMarker([{
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.009,
@@ -98,21 +98,23 @@ export function LocationScreen() {
         onPress={handleDestination}
       />
       {region ? (
-        <MapView 
-        ref={mapRef}
-        region={region} 
-        style={styles.map}
-        showsUserLocation={true}
+        <MapView
+          ref={mapRef}
+          region={region}
+          style={styles.map}
+          showsUserLocation={true}
         >
-          {marker && marker.map((i) =>(
-            <Marker key={i.latitude} coordinate={i} /> 
+          {marker && marker.map((i) => (
+            <Marker key={i.latitude} coordinate={i}>
+              <MaterialCommunityIcons name="cellphone-marker" size={48} color={colors.black} />
+            </Marker>
           ))}
-          {coords && <Polyline 
+          {coords && <Polyline
             coordinates={coords}
             strokeColor={colors.black}
-          strokeWidth={7}
-        />}
-        {destination && (
+            strokeWidth={7}
+          />}
+          {destination && (
             <MapViewDirections
               origin={region}
               destination={destination}
@@ -132,10 +134,10 @@ export function LocationScreen() {
               }}
             />
           )}
-            </MapView>
+        </MapView>
       ) : (
-      <Text style={styles.paragraph}>{text}</Text>
-      )}      
+        <Text style={styles.paragraph}>{text}</Text>
+      )}
     </View>
   );
 }
