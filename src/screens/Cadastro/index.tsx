@@ -31,6 +31,7 @@ export function Cadastro({navigation}:loginTypes) {
                 Alert.alert('Preencha todos os campos!')
             }
         }catch (error){
+            console.log(error)
             const err = error as AxiosError
             const errData = err.response?.data as IErrorApi
             let message = ""
@@ -39,6 +40,8 @@ export function Cadastro({navigation}:loginTypes) {
                     message = `${message} ${iterator.message} \n`
                 }
             }
+            Alert.alert(message)
+            setIsLoading(false)
         } finally {
             setIsLoading(false)
 
@@ -50,7 +53,7 @@ export function Cadastro({navigation}:loginTypes) {
     useEffect(()=> {
         setTimeout(() =>{
               setIsLoading(false)
-        },2000)
+        },1980)
     },[])
 
     return (

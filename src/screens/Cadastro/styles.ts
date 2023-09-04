@@ -5,6 +5,8 @@ export const styles = StyleSheet.create({
         flex: 1
     },
     title: {
+        marginTop: 150,
+        padding: 40,
         fontSize:30,
         fontWeight: "bold",
         textAlign: "center",

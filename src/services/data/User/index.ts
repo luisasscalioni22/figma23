@@ -4,7 +4,7 @@ export interface IRegister {
     email?: string
     password?: string
 }
-export interface IAutenticate {
+export interface IAuthenticate {
     email?: string
     password?:string
 }
@@ -13,7 +13,7 @@ export interface IUser{
     name:string
     email:string
 }
-export interface IUserlogin {
+export interface IUserLogin {
     user: IUser
     token: {
         token: string
@@ -23,10 +23,10 @@ export interface IUserlogin {
 class UserData{
     register(data: IRegister)
     {
-        return api.post<IUser>('/reigster',data)
+        return api.post<IUser>('/register',data)
     }
-    login(data: IAutenticate){
-        return api.post<IUserlogin>('/login',data)
+    login(data: IAuthenticate){
+        return api.post<IUserLogin>('/login',data)
     }
 }
 export default new UserData()
